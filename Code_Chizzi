@@ -1,1 +1,46 @@
+# Le pedimos al usuario la cantidad de partidos
+n = int(input("Cantidad de partidos: "))
 
+# Diccionario donde se van a guardar los equipos a medida que aparezcan
+equipos = {}
+
+# Por cada partido pedimos los datos uno por uno
+for i in range(n):
+    print(f"\n--- Partido {i + 1} ---")
+    local = input("Equipo local: ")
+    visitante = input("Equipo visitante: ")
+    gl = int(input("Goles del local: "))
+    gv = int(input("Goles del visitante: "))
+
+    # Si los equipos no estaban en la tabla, los agregamos en cero
+    if local not in equipos:
+        equipos[local] = {"pts": 0, "gf": 0, "gc": 0}
+    if visitante not in equipos:
+        equipos[visitante] = {"pts": 0, "gf": 0, "gc": 0}
+
+    # Actualizar goles a favor y goles en contra de cada uno
+    equipos[local]["gf"] += gl
+    equipos[local]["gc"] += gv
+    equipos[visitante]["gf"] += gv
+    equipos[visitante]["gc"] += gl
+
+    # Repartir puntos segun el resultado
+    if gl > gv:
+        equipos[local]["pts"] += 3
+    elif gv > gl:
+        equipos[visitante]["pts"] += 3
+    else:
+        equipos[local]["pts"] += 1
+        equipos[visitante]["pts"] += 1
+
+# Ordenar la tabla aplicando los 4 criterios FIFA
+tabla = sorted(
+    equipos.items(),
+    key=lambda x: (-x[1]["pts"], -(x[1]["gf"] - x[1]["gc"]), -x[1]["gf"], x[0])
+)
+# Mostrar el resultado final en el formato pedido
+print("\nClasificados:")
+print(tabla[0][0])
+print(tabla[1][0])
+print("Tercero:")
+print(tabla[2][0])
