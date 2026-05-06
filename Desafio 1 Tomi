@@ -1,2 +1,84 @@
 Chavales, les dejo mi codigo modificado PROVISORIO (Base de chizzi), les puedo explicar linea por linea obviando algunas cosas como el "Key=Lambda" que es cuestion de investigar y relacionar
 
+# Diccionario donde se guardan los equipos a medida que aparezcan
+equipos = {}
+
+# INGRESO DE PARTIDOS: Solicita exactamente 6 partidos para un grupo de 4 equipos
+print("=" * 60)
+print("SISTEMA DE CLASIFICACIÓN FIFA - FASE DE GRUPOS")
+print("Ingrese los resultados de los 6 partidos")
+print("=" * 60)
+
+for i in range(6):
+    print(f"\n--- Partido {i + 1} ---")
+    local = input("Equipo local: ")
+    visitante = input("Equipo visitante: ")
+    
+    # VALIDACIÓN DE EQUIPOS: Garantiza máximo 4 equipos únicos
+    if local not in equipos:
+        if len(equipos) >= 4 and visitante not in equipos:
+            print("Se han ingresado mas de 4 equipos, por favor revise los nombres de los equipos y vuelva a ingresar el partido.")
+            exit()
+        equipos[local] = {"pts": 0, "gf": 0, "gc": 0}
+    
+    if visitante not in equipos:
+        if len(equipos) >= 4:
+            print("Se han ingresado mas de 4 equipos, por favor revise los nombres de los equipos y vuelva a ingresar el partido.")
+            exit()
+        equipos[visitante] = {"pts": 0, "gf": 0, "gc": 0}
+    
+    # VALIDACIÓN DE GOLES: Rango permitido 0-20
+    while True:
+        try:
+            gl = int(input("Goles del equipo local: "))
+            gv = int(input("Goles del equipo visitante: "))
+            if 0 <= gl <= 20 and 0 <= gv <= 20: 
+                break 
+#Si 
+            else:
+                print("Los goles deben estar entre 0 y 20")
+        except ValueError:
+            print("Ingrese valores validos para los goles (números enteros entre 0 y 20)")
+    
+    # ACTUALIZACIÓN DE ESTADÍSTICAS: Goles a favor y en contra
+    equipos[local]["gf"] += gl
+    equipos[local]["gc"] += gv
+    equipos[visitante]["gf"] += gv
+    equipos[visitante]["gc"] += gl
+
+    # ASIGNACIÓN DE PUNTOS: Criterio FIFA (+3 por victoria, +1 por empate, 0 por derrota)
+    if gl > gv:
+        equipos[local]["pts"] += 3
+    elif gv > gl:
+        equipos[visitante]["pts"] += 3
+    else:
+        equipos[local]["pts"] += 1
+        equipos[visitante]["pts"] += 1
+        # Derrota del local, victoria del visitante y viceversa
+
+# ORDENAMIENTO: Aplicando los 4 criterios FIFA
+tabla = sorted(
+    equipos.items(),
+    key=lambda x: (-x[1]["pts"], -(x[1]["gf"] - x[1]["gc"]), -x[1]["gf"], x[0])
+    )
+
+# IMPRESIÓN DE TABLA: Mostrando posiciones, puntos, goles a favor, goles en contra y diferencia de goles
+print("\n" + "=" * 60)
+print("TABLA DE POSICIONES - FINAL")
+print("=" * 60)
+print(f"{'POS':<5} {'EQUIPO':<15} {'PTS':<6} {'GF':<6} {'GC':<6} {'DG':<6}")
+print("-" * 60)
+
+for posicion, (equipo, datos) in enumerate(tabla, 1):
+    dg = datos["gf"] - datos["gc"]
+    print(f"{posicion:<5} {equipo:<15} {datos['pts']:<6} {datos['gf']:<6} {datos['gc']:<6} {dg:<6}")
+
+# RESULTADOS FINALES: Clasificados para siguiente ronda
+print("\n" + "=" * 60)
+print("CLASIFICADOS PARA SIGUIENTE RONDA:")
+print("=" * 60)
+print(f" 1er puesto: {tabla[0][0]}")
+print(f" 2do puesto: {tabla[1][0]}")
+print("\n" + "=" * 60) #/n Es un salto de linea para separar la sección de los terceros puestos
+print(f" 3er puesto(Clasfica dentro de los ocho mejores terceros): {tabla[2][0]}") 
+print("=" * 60)
