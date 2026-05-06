@@ -1,1 +1,43 @@
-
+El Desafío 1 de la Copa de Algoritmia y Programación UADE 2026 consiste en desarrollar un Sistema de Clasificación FIFA para simular la fase de grupos del Mundial 2026
+. El objetivo central es procesar los resultados de los partidos de un grupo y determinar qué equipos clasifican a la siguiente ronda basándose en las reglas oficiales de la FIFA
+.
+A continuación, te detallo los puntos clave para entender la consigna:
+1. El Objetivo del Programa
+Debés construir un sistema que reciba los resultados de los partidos y calcule automáticamente para cada uno de los 4 equipos del grupo
+:
+Partidos jugados.
+Puntos obtenidos (3 por ganar, 1 por empatar, 0 por perder)
+.
+Goles a favor (GF).
+Goles en contra (GC).
+Diferencia de gol (DG) (Goles a favor menos goles en contra)
+.
+2. Formato de Entrada (Input)
+El programa leerá los datos en el siguiente orden
+:
+Una primera línea con la cantidad de partidos (que serán exactamente 6 para un grupo de 4 selecciones)
+.
+Las siguientes líneas con los resultados: EquipoLocal EquipoVisitante GolesLocal GolesVisitante (ejemplo: ARG BRA 2 1)
+.
+3. Criterios de Clasificación y Desempate
+Una vez procesados los 6 partidos, el programa debe ordenar la tabla de posiciones siguiendo este orden estricto de criterios
+:
+Mayor cantidad de puntos.
+Mayor diferencia de gol (si empatan en puntos).
+Mayor cantidad de goles a favor (si empatan en los dos anteriores).
+Prioridad alfabética (en caso de empate absoluto en todo lo anterior, por ejemplo, ARG queda por encima de BRA)
+.
+4. Salida Esperada (Output)
+El programa debe informar quiénes terminaron en las primeras tres posiciones con un formato específico
+:
+Mencionar a los dos Clasificados (1° y 2° puesto).
+Identificar al Tercero del grupo.
+Consideraciones Técnicas Importantes
+Estructuras de datos: Se evaluará especialmente el uso de diccionarios para modelar la información de cada equipo y la actualización dinámica de las variables
+.
+Casos Borde (Corner Cases): Tu código debe ser robusto y estar preparado para situaciones límite, como empates absolutos en puntos y goles, asegurando que las reglas de desempate se apliquen correctamente
+.
+Restricciones: Los goles siempre serán números enteros entre 0 y 20
+.
+En resumen, el desafío pone a prueba tu capacidad para manejar lógica condicional, procesamiento de datos y algoritmos de ordenamiento con múltiples criterios bajo un esquema de competencia real
+.
