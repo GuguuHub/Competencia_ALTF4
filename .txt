@@ -1,0 +1,666 @@
+#TXT
+SISTEMA DE CLASIFICACIÓN FIFA – COPA MUNDIAL 2026
+Explicación completa del código
+
+--------------------------------------------------
+1. OBJETIVO DEL PROGRAMA
+--------------------------------------------------
+
+El objetivo del programa es simular el sistema de clasificación
+de la fase de grupos del Mundial FIFA 2026.
+
+El sistema recibe los resultados de los partidos de un grupo
+compuesto por 4 equipos y debe:
+
+- Registrar estadísticas de cada equipo
+- Calcular puntos
+- Calcular goles a favor y en contra
+- Calcular diferencia de gol
+- Ordenar la tabla según criterios FIFA
+- Determinar clasificados
+- Identificar el tercer puesto
+- Manejar casos especiales y validaciones
+
+El programa fue desarrollado utilizando Python y estructuras
+de datos dinámicas como diccionarios, listas, sets y funciones.
+
+
+--------------------------------------------------
+	2. ESTRUCTURA GENERAL DEL PROGRAMA
+--------------------------------------------------
+El programa está dividido en varias funciones para mejorar:
+
+	- organización
+	- legibilidad
+	- reutilización
+	- mantenimiento
+
+Funciones principales:
+
+1. imprimir_tabla()
+2. registrar_equipo()
+3. validar_equipo_clasificado()
+4. crear_equipos_validos_mundial_2026()
+5. procesar_partido()
+6. ordenar_tabla()
+7. main()
+
+--------------------------------------------------
+3.1 FUNCIÓN imprimir_tabla()
+--------------------------------------------------
+
+Esta función se encarga de mostrar la tabla de posiciones
+de manera ordenada y visual.
+
+Parámetros:
+
+- tabla → lista de equipos ordenados
+- titulo → nombre de la tabla a mostrar
+
+Se utiliza:
+
+print(f"{' POS':<5}")
+
+El símbolo "<5" significa:
+alinear el texto a la izquierda utilizando
+5 espacios.
+
+La función también utiliza:
+
+enumerate(tabla, 1)
+
+Esto permite recorrer la tabla y numerar automáticamente
+las posiciones comenzando desde 1.
+
+Ejemplo:
+1 ARG
+2 BRA
+
+Luego se calcula la diferencia de gol:
+
+dg = datos["gf"] - datos["gc"]
+
+Finalmente se imprime toda la tabla utilizando
+f-strings para mantener el formato alineado.
+
+--------------------------------------------------
+3.2 FUNCIÓN registrar_equipo()
+--------------------------------------------------
+
+Esta función verifica si un equipo ya existe dentro
+del diccionario principal.
+
+Se utiliza:
+
+if equipo not in equipos:
+
+Si el equipo todavía no fue creado,
+se inicializan sus estadísticas:
+
+equipos[equipo] = {
+    "pts": 0,
+    "pj": 0,
+    "gf": 0,
+    "gc": 0
+}
+
+Esto permite que todos los equipos comiencen
+con valores vacíos.
+
+--------------------------------------------------
+3.3 FUNCIÓN validar_equipo_clasificado()
+--------------------------------------------------
+
+Esta función valida que el país ingresado pertenezca
+a la lista de selecciones clasificadas al Mundial 2026.
+
+Se utiliza:
+
+clave = nombre.casefold()
+
+casefold() convierte el texto a minúsculas
+de forma segura.
+
+Ejemplo:
+
+"ARG" → "arg"
+
+Esto permite validar correctamente el texto
+sin importar mayúsculas o minúsculas.
+
+Luego se verifica:
+
+if clave not in equipos_validos_map:
+
+Si el país no existe:
+se genera un error mediante:
+
+raise ValueError
+
+Posteriormente ese error es capturado
+por un bloque try/except.
+
+--------------------------------------------------
+3.4 FUNCIÓN crear_equipos_validos_mundial_2026()
+--------------------------------------------------
+
+Esta función crea un diccionario con los
+48 países clasificados al Mundial 2026.
+
+Ejemplo:
+
+{
+    "arg": "ARG",
+    "bra": "BRA"
+}
+
+La clave se guarda usando casefold()
+para facilitar la validación.
+
+El valor mantiene el nombre canónico
+del país.
+
+--------------------------------------------------
+3.5 FUNCIÓN procesar_partido()
+--------------------------------------------------
+
+Esta función actualiza todas las estadísticas
+luego de disputarse un partido.
+
+Se modifican:
+
+- partidos jugados
+- goles a favor
+- goles en contra
+- puntos
+
+Ejemplo:
+
+equipos[local]["gf"] += gl
+
+Esto significa:
+sumar los goles realizados por el local.
+
+También se actualizan los puntos.
+
+Sistema utilizado:
+
+- victoria → 3 puntos
+- empate → 1 punto
+- derrota → 0 puntos
+
+Condiciones:
+
+if gl > gv:
+    gana local
+
+elif gl < gv:
+    gana visitante
+
+else:
+    empate
+
+--------------------------------------------------
+3.6 FUNCIÓN ordenar_tabla()
+--------------------------------------------------
+
+Esta función ordena los equipos utilizando
+los criterios oficiales FIFA.
+
+Se utiliza:
+
+tabla.sort()
+
+junto con:
+
+key=lambda x:
+
+La función lambda define el criterio de ordenamiento.
+
+Código:
+
+tabla.sort(
+    key=lambda x: (
+        -x[1]["pts"],
+        -(x[1]["gf"] - x[1]["gc"]),
+        -x[1]["gf"],
+        x[0]
+    )
+)
+
+Explicación:
+
+- x[0] → nombre del equipo
+- x[1] → estadísticas del equipo
+
+Orden utilizado:
+
+1. Mayor cantidad de puntos
+2. Mayor diferencia de gol
+3. Mayor cantidad de goles a favor
+4. Orden alfabético
+
+El signo negativo (-) permite ordenar
+de mayor a menor.
+
+--------------------------------------------------
+3.7 FUNCIÓN main()
+--------------------------------------------------
+
+Es la función principal del programa.
+
+Desde aquí se ejecuta todo el sistema.
+
+Primero se crean:
+
+equipos = {}
+
+y:
+
+equipos_validos_map
+
+También se define:
+
+total_partidos = 6
+
+porque cada grupo tiene:
+
+- 4 equipos
+- 6 partidos
+
+Luego se utiliza:
+
+enfrentamientos_jugados = set()
+
+El set permite guardar enfrentamientos únicos
+y evitar partidos repetidos.
+
+--------------------------------------------------
+3.8 INGRESO Y VALIDACIÓN DE DATOS
+--------------------------------------------------
+
+El programa utiliza:
+
+while True:
+
+para repetir el ingreso hasta que los datos
+sean válidos.
+
+También se usa:
+
+try:
+
+y:
+
+except ValueError:
+
+Esto evita que el programa se rompa
+si el usuario ingresa datos incorrectos.
+
+Ejemplo:
+
+int("hola")
+
+generaría un error.
+
+Con try/except:
+el programa sigue funcionando correctamente.
+
+--------------------------------------------------
+3.9 USO DE split()
+--------------------------------------------------
+
+El ingreso del usuario se separa utilizando:
+
+entrada.split()
+
+Ejemplo:
+
+"ARG BRA 2 1"
+
+↓
+
+["ARG", "BRA", "2", "1"]
+
+Esto permite guardar cada dato por separado.
+
+--------------------------------------------------
+3.10 VALIDACIÓN DE PARTIDOS REPETIDOS
+--------------------------------------------------
+
+Se utiliza:
+
+tuple(sorted())
+
+para evitar partidos repetidos.
+
+Ejemplo:
+
+ARG BRA
+BRA ARG
+
+se consideran el mismo partido.
+
+Esto se almacena dentro del set:
+
+enfrentamientos_jugados
+
+--------------------------------------------------
+3.11 VALIDACIÓN DE GOLES
+--------------------------------------------------
+
+Se verifica:
+
+0 <= gl <= 20
+
+y:
+
+0 <= gv <= 20
+
+Esto asegura que los goles estén dentro
+del rango permitido por la consigna.
+
+--------------------------------------------------
+3.12 VALIDACIÓN DE EQUIPOS
+--------------------------------------------------
+
+El sistema controla que:
+
+- no existan más de 4 equipos
+- ningún equipo juegue contra sí mismo
+- cada equipo dispute máximo 3 partidos
+
+--------------------------------------------------
+3.13 TABLAS PROVISORIAS
+--------------------------------------------------
+
+Cada 2 partidos se imprime una tabla provisoria.
+
+Esto representa cada fecha del grupo.
+
+Se utiliza:
+
+if (i + 1) % 2 == 0
+
+El operador % representa el módulo.
+
+Permite detectar múltiplos de 2.
+
+--------------------------------------------------
+3.14 CLASIFICADOS
+--------------------------------------------------
+
+Al finalizar los 6 partidos:
+
+- primer puesto → clasificado
+- segundo puesto → clasificado
+- tercer puesto → identificado
+
+Se utiliza:
+
+tabla_actual[0][0]
+tabla_actual[1][0]
+tabla_actual[2][0]
+
+El primer índice selecciona la posición.
+El segundo índice selecciona el nombre del equipo.
+
+--------------------------------------------------
+3.15 EMPATE ABSOLUTO
+--------------------------------------------------
+
+El programa detecta empates absolutos.
+
+Un empate absoluto ocurre cuando dos equipos tienen:
+
+- mismos puntos
+- misma diferencia de gol
+- mismos goles a favor
+
+En ese caso:
+se utiliza prioridad alfabética.
+
+Ejemplo:
+
+ARG antes que BRA.
+
+--------------------------------------------------
+4. CORNER CASES CONTEMPLADOS
+--------------------------------------------------
+
+El programa fue diseñado considerando
+múltiples situaciones límite.
+
+1) Entrada vacía
+
+Si el usuario presiona ENTER sin ingresar datos,
+el sistema muestra un error y vuelve a pedir
+el partido.
+
+2) Cantidad incorrecta de datos
+
+Cada línea debe tener exactamente:
+
+EquipoLocal EquipoVisitante GolesL GolesV
+
+Si faltan o sobran datos,
+el sistema invalida la entrada.
+
+3) País no clasificado
+
+Solo se permiten selecciones clasificadas
+al Mundial FIFA 2026.
+
+4) Equipo contra sí mismo
+
+Un equipo no puede jugar contra sí mismo.
+
+Ejemplo inválido:
+
+ARG ARG 2 1
+
+5) Partido repetido
+
+No se permite repetir enfrentamientos.
+
+Ejemplo:
+
+ARG BRA
+BRA ARG
+
+Se consideran el mismo partido.
+
+6) Goles fuera de rango
+
+Los goles deben estar entre 0 y 20.
+
+7) Más de 4 equipos
+
+El sistema controla que el grupo
+tenga exactamente 4 selecciones.
+
+8) Más de 3 partidos por equipo
+
+Cada selección solo puede disputar
+3 encuentros.
+
+9) Empate absoluto
+
+Si dos equipos empatan en:
+
+- puntos
+- diferencia de gol
+- goles a favor
+
+se utiliza orden alfabético.
+
+10) Error de tipo de dato
+
+Si el usuario ingresa texto en lugar de números
+para los goles,
+el programa captura el error utilizando
+try/except.
+--------------------------------------------------
+11. VALIDACIONES IMPLEMENTADAS
+--------------------------------------------------
+
+El programa valida múltiples casos especiales.
+
+A) Entrada vacía
+
+if not entrada:
+
+Evita líneas sin contenido.
+
+
+B) Cantidad incorrecta de datos
+
+if len(linea) != 4:
+
+Cada línea debe tener:
+
+EquipoLocal EquipoVisitante GolesL GolesV
+
+
+C) Países válidos
+
+Solo se aceptan selecciones clasificadas al Mundial 2026.
+
+
+D) Equipo contra sí mismo
+
+if local.casefold() == visitante.casefold()
+
+Un equipo no puede jugar contra sí mismo.
+
+
+E) Partido repetido
+
+Se utiliza:
+
+tuple(sorted())
+
+para detectar partidos repetidos sin importar el orden.
+
+Ejemplo:
+
+ARG BRA
+BRA ARG
+
+se consideran el mismo enfrentamiento.
+
+
+F) Goles válidos
+
+Los goles deben estar entre 0 y 20.
+
+
+G) Máximo de 4 equipos
+
+No pueden existir más de 4 selecciones dentro del grupo.
+
+
+H) Máximo de 3 partidos por equipo
+
+Cada selección solo puede jugar 3 encuentros.
+
+
+--------------------------------------------------
+12. TABLAS PROVISORIAS
+--------------------------------------------------
+
+Cada 2 partidos se imprime una tabla provisoria.
+
+Esto representa una fecha del grupo.
+
+Se utiliza:
+
+if (i + 1) % 2 == 0
+
+El operador % representa el módulo.
+
+Permite detectar múltiplos de 2.
+
+
+--------------------------------------------------
+13. CLASIFICADOS
+--------------------------------------------------
+
+Al finalizar los 6 partidos:
+
+- primer puesto → clasificado
+- segundo puesto → clasificado
+- tercer puesto → identificado
+
+Código:
+
+tabla_actual[0][0]
+tabla_actual[1][0]
+tabla_actual[2][0]
+
+El primer índice selecciona la posición.
+El segundo índice selecciona el nombre del equipo.
+
+
+--------------------------------------------------
+14. EMPATE ABSOLUTO
+--------------------------------------------------
+
+El programa detecta empates absolutos.
+
+Un empate absoluto ocurre cuando dos equipos tienen:
+
+- mismos puntos
+- misma diferencia de gol
+- mismos goles a favor
+
+En ese caso:
+
+clasifica primero el equipo con prioridad alfabética.
+
+Ejemplo:
+
+ARG antes que BRA.
+
+
+--------------------------------------------------
+15. CONCEPTOS DE PROGRAMACIÓN UTILIZADOS
+--------------------------------------------------
+
+El programa utiliza múltiples conceptos fundamentales:
+
+- funciones
+- diccionarios
+- listas
+- sets
+- estructuras condicionales
+- ciclos for
+- while True
+- try/except
+- manejo de errores
+- ordenamiento con lambda
+- strings
+- f-strings
+- validaciones
+- estructuras dinámicas
+
+
+--------------------------------------------------
+16. CONCLUSIÓN
+--------------------------------------------------
+
+El programa implementa correctamente el sistema de
+clasificación de la fase de grupos del Mundial FIFA 2026.
+
+La solución fue desarrollada buscando:
+
+- robustez
+- claridad
+- modularización
+- validación de datos
+- cumplimiento exacto de la consigna
+
+Además, se contemplaron múltiples corner cases,
+como empates absolutos y partidos repetidos,
+garantizando un funcionamiento correcto incluso
+en escenarios límite.
