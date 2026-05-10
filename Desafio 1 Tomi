@@ -1,4 +1,3 @@
-Chavales, les dejo mi codigo modificado PROVISORIO (Base de chizzi), les puedo explicar linea por linea obviando algunas cosas como el "Key=Lambda" que es cuestion de investigar y relacionar
 
 def imprimir_tabla(tabla, titulo):
     """Imprime la tabla de posiciones con un título específico.
