@@ -40,12 +40,6 @@ def cargar_secuencia():
         str: Secuencia de caracteres L, R y C en mayúsculas.
     """
     print("IMPORTANTE: Asegurarse de tener el archivo .txt descargado e ingresar la ruta completa del archivo.")
-    print()
-    print("  Windows: C:\\Users\\TuNombre\\.......\\NombreArchivo.txt")
-    print("  Mac/Linux: /home/TuNombre/......./NombreArchivo.txt")
-    print()
-    print("  Consejo en Windows: clic derecho sobre el archivo")
-    print("  → 'Copiar como ruta' y pegue aquí con Ctrl+V.")
     print("=" * 50)
 
     while True:
