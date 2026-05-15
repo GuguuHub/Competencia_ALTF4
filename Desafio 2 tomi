@@ -51,9 +51,6 @@ def cargar_secuencia():
     Returns:
         str: Secuencia de caracteres L, R y C en mayúsculas.
     """
-    print("=" * 40)
-    print("  SISTEMA DE PREDICCIÓN DE PENALES")
-    print("=" * 40)
     print("IMPORTANTE: Asegúrese de tener el archivo")
     print(".txt descargado antes de continuar.")
     print("=" * 40)
