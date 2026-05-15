@@ -1,0 +1,152 @@
+# =============================================================
+# SISTEMA DE PREDICCIÓN DE PENALES
+# Copa de Algoritmia y Programación UADE 2026
+# Desafío 2
+# =============================================================
+ 
+ESPACIOS = (" ", "\t", "\r", "\n")
+VALIDOS  = ("L", "R", "C")
+ 
+ 
+def limpiar_y_validar(contenido):
+    """Procesa el contenido del archivo carácter por carácter.
+ 
+    Ignora espacios, tabs y saltos de línea.
+    Acepta mayúsculas y minúsculas.
+    Detecta cualquier carácter que no sea L, R ni C.
+ 
+    Args:
+        contenido (str): Texto crudo leído desde el archivo.
+ 
+    Returns:
+        tuple: (secuencia_limpia, caracter_invalido)
+            - secuencia_limpia (str): solo L, R, C en mayúsculas.
+            - caracter_invalido (str): primer carácter inválido encontrado, o "" si todo es válido.
+    """
+    secuencia = ""
+    for caracter in contenido.upper():
+        if caracter in VALIDOS:
+            secuencia += caracter
+        elif caracter in ESPACIOS:
+            continue
+        else:
+            # Permite separadores “tontos” entre tokens (por ejemplo comas,
+            # punto y coma, etc.). Si el caracter no es alfanumérico, se ignora.
+            if caracter.isascii() and not caracter.isalnum():
+                continue
+            # También ignora caracteres de control tipo tab/salto cuando
+            # no hayan sido cubiertos por ESPACIOS.
+            if caracter.isspace():
+                continue
+            return "", caracter
+    return secuencia, ""
+ 
+ 
+def cargar_secuencia():
+    """Solicita al usuario un archivo .txt, valida su contenido y retorna la secuencia.
+ 
+    Acepta mayúsculas o minúsculas e ignora espacios automáticamente.
+    Permite reintentar ante cualquier error sin cortar el programa.
+ 
+    Returns:
+        str: Secuencia de caracteres L, R y C en mayúsculas.
+    """
+    print("=" * 40)
+    print("  SISTEMA DE PREDICCIÓN DE PENALES")
+    print("=" * 40)
+    print("IMPORTANTE: Asegúrese de tener el archivo")
+    print(".txt descargado antes de continuar.")
+    print("=" * 40)
+ 
+    while True:
+        ruta = input("Adjunte su archivo (.txt): ")
+ 
+        if not ruta.endswith(".txt"):
+            print("Error: el archivo debe tener extensión .txt")
+            print("Intente nuevamente.\n")
+            continue
+ 
+        try:
+            archivo = open(ruta, "r")
+            contenido = archivo.read()
+            archivo.close()
+        except FileNotFoundError:
+            print("Error: no se encontró el archivo en la ruta indicada.")
+            print("Verifique que el archivo exista y que la ruta sea correcta.")
+            print("Intente nuevamente.\n")
+            continue
+ 
+        secuencia, invalido = limpiar_y_validar(contenido)
+ 
+        if invalido != "":
+            print(f"Error: el archivo contiene el carácter inválido '{invalido}'.")
+            print("Solo se permiten L (izquierda), R (derecha) y C (centro).")
+            print("Intente nuevamente.\n")
+            continue
+ 
+        if len(secuencia) == 0:
+            print("Error: el archivo está vacío. Ingrese una secuencia válida.")
+            print("Intente nuevamente.\n")
+            continue
+ 
+        if len(secuencia) > 1000:
+            print(f"Error: la secuencia tiene {len(secuencia)} caracteres.")
+            print("El máximo permitido es 1000.")
+            print("Intente nuevamente.\n")
+            continue
+ 
+        return secuencia
+ 
+ 
+def contar_penales(secuencia):
+    """Recorre la secuencia una sola vez y cuenta los tiros por dirección.
+ 
+    Args:
+        secuencia (str): Cadena de caracteres L, R y C.
+ 
+    Returns:
+        tuple: (cantidad_L, cantidad_R, cantidad_C)
+    """
+    l = 0
+    r = 0
+    c = 0
+    for penal in secuencia:
+        if penal == "L":
+            l += 1
+        elif penal == "R":
+            r += 1
+        elif penal == "C":
+            c += 1
+    return l, r, c
+ 
+ 
+def determinar_direccion(l, r, c):
+    """Determina la dirección dominante aplicando la regla de desempate L > R > C.
+ 
+    Args:
+        l (int): Cantidad de tiros a la izquierda.
+        r (int): Cantidad de tiros a la derecha.
+        c (int): Cantidad de tiros al centro.
+ 
+    Returns:
+        tuple: (dirección dominante, cantidad de apariciones)
+    """
+    if l >= r and l >= c:
+        return "L", l
+    elif r >= c:
+        return "R", r
+    else:
+        return "C", c
+ 
+ 
+def main():
+    """Función principal: carga el archivo, analiza y muestra la predicción."""
+    secuencia = cargar_secuencia()
+    l, r, c = contar_penales(secuencia)
+    direccion, cantidad = determinar_direccion(l, r, c)
+    print(direccion)
+    print(cantidad)
+ 
+ 
+if __name__ == "__main__":
+    main()
