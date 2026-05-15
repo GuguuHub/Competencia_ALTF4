@@ -1,8 +1,6 @@
-# =============================================================
 # SISTEMA DE PREDICCIÓN DE PENALES
 # Copa de Algoritmia y Programación UADE 2026
 # Desafío 2
-# =============================================================
 
 ESPACIOS = (" ", "\t", "\r", "\n")
 VALIDOS  = ("L", "R", "C")
@@ -41,10 +39,10 @@ def cargar_secuencia():
     Returns:
         str: Secuencia de caracteres L, R y C en mayúsculas.
     """
-    print("IMPORTANTE: Ingrese la ruta completa del archivo.")
+    print("IMPORTANTE: Asegurarse de tener el archivo .txt descargado e ingresar la ruta completa del archivo.")
     print()
-    print("  Windows: C:\\Users\\TuNombre\\Desktop\\penales.txt")
-    print("  Mac/Linux: /home/TuNombre/Desktop/penales.txt")
+    print("  Windows: C:\\Users\\TuNombre\\.......\\NombreArchivo.txt")
+    print("  Mac/Linux: /home/TuNombre/......./NombreArchivo.txt")
     print()
     print("  Consejo en Windows: clic derecho sobre el archivo")
     print("  → 'Copiar como ruta' y pegue aquí con Ctrl+V.")
