@@ -1,0 +1,56 @@
+SISTEMA DE PREDICCIÓN DE PENALES - DESAFÍO 2
+Copa de Algoritmia y Programación UADE 2026
+
+OBJETIVO
+--------
+El programa analiza el historial de penales de un jugador rival para predecir
+la dirección más probable de su próximo disparo, asistiendo al arquero en la
+tanda de penales. Lee una secuencia de caracteres desde un archivo .txt donde
+cada letra representa una dirección: L (izquierda), R (derecha) o C (centro).
+
+FUNCIONAMIENTO GENERAL
+----------------------
+El algoritmo se divide en cuatro etapas claramente separadas en funciones:
+
+1. CARGA Y VALIDACIÓN DEL ARCHIVO (cargar_secuencia)
+   El usuario ingresa la ruta de un archivo .txt. El programa valida que el
+   archivo exista, tenga la extensión correcta, no esté vacío y que su
+   contenido respete el formato esperado. Ante cualquier error, informa al
+   usuario con un mensaje claro y permite reintentar sin interrumpir el programa.
+
+2. LIMPIEZA Y VALIDACIÓN DEL CONTENIDO (limpiar_y_validar)
+   El contenido del archivo se procesa carácter por carácter. Se aceptan
+   mayúsculas y minúsculas. Los espacios, tabulaciones y saltos de línea se
+   ignoran automáticamente para tolerar distintos formatos de archivo. Si se
+   detecta cualquier carácter que no sea L, R o C, se informa el carácter
+   específico que causó el error.
+
+3. CONTEO DE DIRECCIONES (contar_penales)
+   La secuencia limpia se recorre una única vez acumulando tres contadores:
+   uno por cada dirección posible. Recorrer la secuencia una sola vez es una
+   decisión de eficiencia deliberada, evitando iteraciones innecesarias.
+
+4. DETERMINACIÓN DEL RESULTADO (determinar_direccion)
+   Se identifica la dirección con mayor frecuencia. En caso de empate se aplica
+   la regla táctica oficial: L tiene prioridad sobre R, y R sobre C. Esto se
+   implementa mediante comparaciones con >= en cascada, garantizando un único
+   resultado determinístico sin condiciones adicionales.
+
+SALIDA
+------
+El programa imprime dos líneas: la dirección dominante y su cantidad de
+apariciones, respetando exactamente el formato solicitado por la consigna.
+
+CRITERIOS DE DESEMPATE
+----------------------
+Si dos o más direcciones tienen la misma frecuencia, la prioridad es L > R > C.
+Esta regla está codificada en la lógica de comparación y no requiere
+procesamiento extra, manteniéndose eficiente y sin casos sin resolver.
+
+ROBUSTEZ
+--------
+El programa maneja correctamente todos los casos límite: archivo inexistente,
+extensión incorrecta, archivo vacío, caracteres inválidos, secuencias en
+minúsculas, texto con espacios y secuencias que superan los 1000 caracteres.
+En todos los casos el error se comunica con precisión y el programa continúa
+ejecutándose hasta recibir una entrada válida.
